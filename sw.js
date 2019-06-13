@@ -15,10 +15,10 @@ async function on_push (event) {
   const data = event.data.text()
   await self.registration.showNotification('new message', {
     body: data,
-    icon: './phone.png',
-    // badge: './phone.png',
-    // image: './phone.png',
-    vibrate: [200, 50, 100],
+    icon: './image1.png',
+    badge: './image2.png',
+    image: './image3.png',
+    // vibrate: [200, 50, 100],
     // requireInteraction: true,
   })
   const clients = await self.clients.matchAll({type: 'window'})
