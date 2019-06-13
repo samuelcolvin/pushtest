@@ -15,9 +15,9 @@ async function on_push (event) {
   const data = event.data.text()
   await self.registration.showNotification('new message', {
     body: data,
-    badge: './phone.png',
     icon: './phone.png',
-    image: './phone.png',
+    // badge: './phone.png',
+    // image: './phone.png',
     vibrate: [200, 50, 100],
     // requireInteraction: true,
   })

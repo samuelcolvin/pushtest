@@ -47,6 +47,14 @@ subscriptions = """
     "p256dh": "BB9VI8Aud-V2zXwzQzqRTQEGBipFFCr9Y0IRTTY7aRC6dJXowEZoCHS_xMTl_dc0cSmvl6_c9oWssQNrdzoj87o",
     "auth": "WPIxwcp38j79qh_mbp_IAg"
   }
+},
+{
+  "endpoint": "https://fcm.googleapis.com/fcm/send/f9phu1upti8:APA91bFW9w4AOrsr34ms2YQhhtn1jLGGqEB5hED8x0xEcx0w9mn0iXJdQNeV2NtNr_ACrjf0K8dtMz3wlQjHqgAjtK_8eGV9zT9sIO-tBnC1YNkSo8BHqhHImHetFshJQA_NmeZYPRgE",
+  "expirationTime": null,
+  "keys": {
+    "p256dh": "BOc2CGQyH0gzVW8gEaVV6H2gGCrBzhQaIBntRcXOCL7zhRgBc9QUygy0ZXluPeqznyV06tnnq1NJD54_qGSO54s",
+    "auth": "YHJsztzGoGNCOydlPKw6BA"
+  }
 }
 ]
 """
