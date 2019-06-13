@@ -31,18 +31,18 @@ async function click (event) {
   console.log('On notification click: ', event)
   event.notification.close()
 
+  // await self.clients.openWindow('/')
   // This looks to see if the current is already open and
   // focuses if it is
   const clients = await self.clients.matchAll({type: 'window'})
-  const promises = []
-  clients.forEach(client => {
+  for (let client of clients) {
+    // console.log('client', client)
+    // TODO check url
     if ('focus' in client) {
-      promises.push(client.focus())
+      await client.focus()
+      return
     }
-    // if (clients.openWindow) {
-    //   promises.push(clients.openWindow('/'))
-    // }
-  })
-  await Promise.all(promises)
+  }
+  await self.clients.openWindow('/')
 }
 self.addEventListener('notificationclick', event => event.waitUntil(click(event)))
