@@ -2,18 +2,47 @@ self.addEventListener('install', e => {
   console.log('service worker installed', e)
 })
 
-self.addEventListener('message', e => {
-  console.log('message', e)
-  clients.matchAll().then(clients => console.log('clients:', clients))
-})
+function push_to_client (client, msg) {
+  return new Promise(resolve=> {
+    const msg_chan = new MessageChannel()
+    msg_chan.port1.onmessage = event => resolve(event.data)
+    client.postMessage(msg, [msg_chan.port2])
+  })
+}
 
-
-self.addEventListener('push', event => {
+async function on_push (event) {
   console.log('Received a push message', event)
-  console.log('Event:', event.data.text())
-  event.waitUntil(
-    self.registration.showNotification('Yay a message.', {
-      body: event.data.text(),
-    })
-  )
-})
+  const data = event.data.text()
+  await self.registration.showNotification('new message', {
+    body: data,
+    badge: './phone.png',
+    icon: './phone.png',
+    image: './phone.png',
+    vibrate: [200, 50, 100],
+    // requireInteraction: true,
+  })
+  const clients = await self.clients.matchAll({type: 'window'})
+  const promises = clients.map(client => push_to_client(client, data))
+  await Promise.all(promises)
+}
+self.addEventListener('push', event => event.waitUntil(on_push(event)))
+
+async function click (event) {
+  console.log('On notification click: ', event)
+  event.notification.close()
+
+  // This looks to see if the current is already open and
+  // focuses if it is
+  const clients = await self.clients.matchAll({type: 'window'})
+  const promises = []
+  clients.forEach(client => {
+    if ('focus' in client) {
+      promises.push(client.focus())
+    }
+    // if (clients.openWindow) {
+    //   promises.push(clients.openWindow('/'))
+    // }
+  })
+  await Promise.all(promises)
+}
+self.addEventListener('notificationclick', event => event.waitUntil(click(event)))

@@ -1,4 +1,5 @@
 const output = document.getElementById('output')
+const message_el = document.getElementById('message')
 output.innerText = 'running...'
 
 window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').then(initialiseState))
@@ -33,10 +34,6 @@ function initialiseState(r) {
   navigator.serviceWorker.ready.then(serviceWorkerRegistration => {
     // Do we already have a push message subscription?
 
-    if (navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage('testing')
-    }
-
     serviceWorkerRegistration.pushManager.getSubscription()
       .then(sub => {
         if (sub) {
@@ -46,13 +43,11 @@ function initialiseState(r) {
           subscribe(serviceWorkerRegistration.pushManager)
         }
 
-        // // Keep your server in sync with the latest subscriptionId
-        // sendSubscriptionToServer(subscription)
-        //
-        // // Set your UI to show they have subscribed for
-        // // push messages
-        // pushButton.textContent = 'Disable Push Messages'
-        // isPushEnabled = true
+        navigator.serviceWorker.addEventListener('message', event => {
+          console.log('got message: ', event)
+          event.ports[0].postMessage(null)
+          message_el.innerText = event.data
+        })
       })
       .catch(err => console.warn('Error during getSubscription()', err))
   })
