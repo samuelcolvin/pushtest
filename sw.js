@@ -17,7 +17,7 @@ async function on_push (event) {
     body: data,
     icon: './image1.png',
     badge: './image2.png',
-    image: './image3.png',
+    // image: './image3.png',
     // vibrate: [200, 50, 100],
     // requireInteraction: true,
   })
