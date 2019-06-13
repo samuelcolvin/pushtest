@@ -12,6 +12,7 @@ function initialiseState(r) {
       installing_worker.onstatechange = () => {
         if (installing_worker.state === 'installed' && navigator.serviceWorker.controller) {
           console.log('New content is available and will be used when all tabs for this page are closed.')
+          output.innerText += 'New content, reload.'
         }
       }
     }
